@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="Sw2Fit" name="ArazGraph" projectType="guiapp" version="1.0.0"
+              bundleIdentifier="com.yourcompany.ArazGraph" includeBinaryInAppConfig="1"
+              jucerVersion="4.3.0">
+  <MAINGROUP id="HVgSZO" name="ArazGraph">
+    <GROUP id="{A3EE8593-3BCF-4C9E-5913-5C707EC5145A}" name="Source">
+      <FILE id="UdbDlN" name="MainComponent.cpp" compile="1" resource="0"
+            file="Source/MainComponent.cpp"/>
+      <FILE id="f9ACuO" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
+      <FILE id="CXEKsv" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
+    </GROUP>
+  </MAINGROUP>
+  <EXPORTFORMATS>
+    <XCODE_MAC targetFolder="Builds/MacOSX">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="ArazGraph"/>
+        <CONFIGURATION name="Release" isDebug="0" optimisation="3" targetName="ArazGraph"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_graphics" path="../../../JUCE-4.3.0/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../../JUCE-4.3.0/modules"/>
+        <MODULEPATH id="juce_core" path="../../../JUCE-4.3.0/modules"/>
+        <MODULEPATH id="ArazGraph" path="../module"/>
+        <MODULEPATH id="juce_events" path="../../../JUCE-4.3.0/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../../JUCE-4.3.0/modules"/>
+      </MODULEPATHS>
+    </XCODE_MAC>
+  </EXPORTFORMATS>
+  <MODULES>
+    <MODULE id="ArazGraph" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0"/>
+  </MODULES>
+  <JUCEOPTIONS/>
+  <LIVE_SETTINGS>
+    <OSX/>
+  </LIVE_SETTINGS>
+</JUCERPROJECT>

@@ -1,15 +1,16 @@
 # ArazGraph
 ### Author: Ara Bedrossian
-### Date: April 2016
+### Turned into a JUCE module by Maximilian Rest
 
-This is a simple data plotter graph class for JUCE.
+This is a simple data plotter module for [JUCE](https://github.com/julianstorer/JUCE).
 
-I used VisualStudio 2015 to compile the code. But since JUCE is a cross-platform library, you should be able to compile it in any supported environment.
+Provides 'ArazGraph.h' and 'ArazGraph.cpp' to plot multiple datasets.
 
-You need only the 'ArazGraph.h' and 'ArazGraph.cpp' files to be able to use the ArazGraph class to plot multiple datasets.
+## Requirements
 
-## example
-There is an example of usage in 'Source/MainComponent.cpp' file.
+Requires JUCE >4.0.0, might work with >3.0.0 as well.
+
+## Example
 
 ```
 void MainContentComponent::paint(Graphics& g)
@@ -38,8 +39,8 @@ void MainContentComponent::paint(Graphics& g)
 }
 ```
 
-## screenshots
+## Screenshots
 
-![Screenshot 1](https://github.com/arabed/ArazGraph/blob/master/Screenshot/Screenshot_1.png)
+![Screenshot 1](doc/Screenshot_1.png)
 
-![Screenshot 2](https://github.com/arabed/ArazGraph/blob/master/Screenshot/Screenshot_2.png)
+![Screenshot 2](doc/Screenshot_2.png)
