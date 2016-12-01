@@ -121,14 +121,17 @@ void ArazGraph::paint(Graphics& g)
 		}
 		dataset = dataset->nextListItem;
 	}
-    maxX = roundf(maxX*5.0f)/5.0f;
-    minX = roundf(minX*5.0f)/5.0f;
     
-    maxY = roundf(maxY*5.0f)/5.0f;
-    minY = roundf(minY*5.0f)/5.0f;
+    float dx = getRoundedTickRange( 10, maxX-minX );
+    float dy = getRoundedTickRange( 10, maxY-minY );
     
-	int dx = (maxX - minX) / 10;
-	int dy = (maxY - minY) / 10;
+    minX = dx * roundf( minX / dx );
+    maxX = dx * roundf( 1 + maxX / dx );
+    
+    minY = dy * roundf( minY / dy ) - dy;
+    maxY = dy * roundf( 1 + maxY / dy ) - dy;
+    
+    
 	float scaleX = regionGraph.getWidth() / ((maxX == minX ? 0.0001 : maxX - minX) * 1.10);
 	float scaleY = regionGraph.getHeight() / ((maxY == minY ? 0.0001 : maxY - minY) * 1.10);
     
@@ -207,5 +210,45 @@ void ArazGraph::paint(Graphics& g)
 	g.addTransform(AffineTransform::identity.rotated(-float_Pi / 2.0, region.getCentreX(), region.getCentreY()));
 	g.drawText(yLabel, region, Justification::centredTop, true);
 }
+ 
+    
+/**
+ * Returns a rounded tick range which helps to prepare a nice axis scaling
+ * http://stackoverflow.com/questions/326679/choosing-an-attractive-linear-scale-for-a-graphs-y-axis
+ * @param tickCount - number of desired ticks
+ * @param range - range of the values to be displayed
+*/
+float ArazGraph::getRoundedTickRange( unsigned int tickCount, float range)
+{
+#if 0
+    float unroundedTickSize = range/(tickCount-1);
+    float x = std::ceil(std::log10(unroundedTickSize)-1);
+    float pow10x = std::pow(10, x);
+    float roundedTickRange = std::ceil(unroundedTickSize / pow10x) * pow10x;
+#else
+    // calculate an initial guess at step size
+    float tempStep = range/tickCount;
+        
+    // get the magnitude of the step size
+    float mag = (float)std::floor(std::log10(tempStep));
+    float magPow = (float)std::pow(10, mag);
+        
+    // calculate most significant digit of the new step size
+    float magMsd = (int)(tempStep/magPow + 0.5);
+        
+    // promote the MSD to either 1, 2, or 5
+    if (magMsd > 5.0)
+        magMsd = 10.0f;
+    else if (magMsd > 2.0)
+        magMsd = 5.0f;
+    else if (magMsd > 1.0)
+        magMsd = 2.0f;
+        
+    float roundedTickRange = magMsd*magPow;
+#endif
+    
+    return roundedTickRange;
+}
+
     
 }

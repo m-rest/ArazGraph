@@ -61,6 +61,7 @@ namespace arazGraph
         void paint(Graphics& g);
 
     private:
+        float getRoundedTickRange( unsigned int tickCount, float range);
         Rectangle<int> region;
         Rectangle<int> regionGraph;
         String title;
