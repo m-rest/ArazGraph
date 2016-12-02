@@ -20,6 +20,8 @@
 
 #include <juce_core/juce_core.h>
 #include <juce_graphics/juce_graphics.h>
+#include <juce_gui_basics/juce_gui_basics.h>
+
 
 namespace arazGraph
 {
@@ -52,10 +54,10 @@ namespace arazGraph
         LinkedListPointer<ArazGraphDataset> nextListItem;
     };
 
-    class ArazGraph
+    class ArazGraph : public juce::Component
     {
     public:
-        ArazGraph(Rectangle<int> region, String title = "Title", String xLabel = "X-Axis", String yLabel = "Y-Axis", Colour fgColour = Colours::black, Colour bgColour = Colours::white);
+        ArazGraph(String title = "Title", String xLabel = "X-Axis", String yLabel = "Y-Axis", Colour fgColour = Colours::black, Colour bgColour = Colours::white);
         ~ArazGraph();
         void append(ArazGraphDataset* dataset);
         void paint(Graphics& g);

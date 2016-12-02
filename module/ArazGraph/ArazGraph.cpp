@@ -60,12 +60,12 @@ void ArazGraphDataset::append(ArazGraphPoint* point)
  * @param Colour fgColour - foreground color
  * @param Colour bgColour - background color
  */
-ArazGraph::ArazGraph(Rectangle<int> region, String title, String xLabel, String yLabel, Colour fgColour, Colour bgColour)
+ArazGraph::ArazGraph(String title, String xLabel, String yLabel, Colour fgColour, Colour bgColour)
 	: xMargin(-50), yMargin(-40)
 {
-	this->region = region;
-	this->regionGraph = region;
-	this->regionGraph.expand(xMargin, yMargin);
+	//this->region = region;
+	//this->regionGraph = region;
+	//this->regionGraph.expand(xMargin, yMargin);
 	this->title = title;
 	this->xLabel = xLabel;
 	this->yLabel = yLabel;
@@ -73,7 +73,8 @@ ArazGraph::ArazGraph(Rectangle<int> region, String title, String xLabel, String 
 	this->bgColour = bgColour;
 	this->datasets = new LinkedListPointer<ArazGraphDataset>();
 }
-
+    
+    
 /**
  * Destructor function for ArazGraph class
  */
@@ -99,7 +100,11 @@ void ArazGraph::append(ArazGraphDataset* dataset)
 void ArazGraph::paint(Graphics& g)
 {
     g.fillAll(bgColour);
-
+    
+    region = getLocalBounds();
+    regionGraph = region;
+    regionGraph.expand(xMargin, yMargin);
+    
 	float maxX = -FLT_MAX;
 	float minX =  FLT_MAX;
 	float maxY = -FLT_MAX;
@@ -232,32 +237,32 @@ void ArazGraph::paint(Graphics& g)
 */
 float ArazGraph::getRoundedTickRange( unsigned int tickCount, float range)
 {
-#if 0
-    float unroundedTickSize = range/(tickCount-1);
-    float x = std::ceil(std::log10(unroundedTickSize)-1);
-    float pow10x = std::pow(10, x);
-    float roundedTickRange = std::ceil(unroundedTickSize / pow10x) * pow10x;
-#else
-    // calculate an initial guess at step size
-    float tempStep = range/tickCount;
+    #if 0
+        float unroundedTickSize = range/(tickCount-1);
+        float x = std::ceil(std::log10(unroundedTickSize)-1);
+        float pow10x = std::pow(10, x);
+        float roundedTickRange = std::ceil(unroundedTickSize / pow10x) * pow10x;
+    #else
+        // calculate an initial guess at step size
+        float tempStep = range/tickCount;
         
-    // get the magnitude of the step size
-    float mag = (float)std::floor(std::log10(tempStep));
-    float magPow = (float)std::pow(10, mag);
+        // get the magnitude of the step size
+        float mag = (float)std::floor(std::log10(tempStep));
+        float magPow = (float)std::pow(10, mag);
         
-    // calculate most significant digit of the new step size
-    float magMsd = (int)(tempStep/magPow + 0.5);
+        // calculate most significant digit of the new step size
+        float magMsd = (int)(tempStep/magPow + 0.5);
         
-    // promote the MSD to either 1, 2, or 5
-    if (magMsd > 5.0)
-        magMsd = 10.0f;
-    else if (magMsd > 2.0)
-        magMsd = 5.0f;
-    else if (magMsd > 1.0)
-        magMsd = 2.0f;
-        
-    float roundedTickRange = magMsd*magPow;
-#endif
+        // promote the MSD to either 1, 2, or 5
+        if (magMsd > 5.0)
+            magMsd = 10.0f;
+        else if (magMsd > 2.0)
+            magMsd = 5.0f;
+        else if (magMsd > 1.0)
+            magMsd = 2.0f;
+    
+        float roundedTickRange = magMsd*magPow;
+    #endif
     
     return roundedTickRange;
 }
