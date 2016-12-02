@@ -2,9 +2,7 @@
 ### Original author: Ara Bedrossian
 ### Improved and turned into a JUCE module by Maximilian Rest
 
-This is a simple data plotter module with auto scaling for [JUCE](https://github.com/julianstorer/JUCE).
-
-Provides 'ArazGraph.h' and 'ArazGraph.cpp' to plot multiple datasets.
+This is a simple data plotter [juce](https://github.com/julianstorer/JUCE)::Component with auto-scaling axes, organized as a JUCE module.
 
 ## Requirements
 
