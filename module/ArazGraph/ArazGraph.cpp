@@ -126,17 +126,18 @@ void ArazGraph::paint(Graphics& g)
 		dataset = dataset->nextListItem;
 	}
     
-   
+    // calculate tick range for a DESIRED amount if ticks
     float dx = getRoundedTickRange( 10, maxX-minX );
     float dy = getRoundedTickRange( 10, maxY-minY );
     
- 
+    // fix min/max valuesaccording to new tick range
     minX = dx * floor( minX / dx );
     maxX = dx * ceil( 1 + maxX / dx );
     
     minY = dy * floor( minY / dy ) ;
     maxY = dy * ceil( 1 + maxY / dy );
     
+    // calculate REAL tick count, depending on new min/max values and nice tick range
     int xTickCount = (maxX-minX)/dx;
     int yTickCount = (maxY-minY)/dy;
 
@@ -200,7 +201,7 @@ void ArazGraph::paint(Graphics& g)
 			preY = y;
 			point = point->nextListItem;
 		}
-		g.drawSingleLineText(dataset->label, regionGraph.getTopRight().getX() - 5, regionGraph.getTopRight().getY() + (lineH * 18), Justification::right);
+		g.drawSingleLineText(dataset->label, region.getTopRight().getX() - 5, regionGraph.getTopRight().getY() + (lineH * 18), Justification::right);
 		lineH++;
 		dataset = dataset->nextListItem;
     }
@@ -217,7 +218,9 @@ void ArazGraph::paint(Graphics& g)
 	g.setColour(fgColour);
 	g.drawText(xLabel, region, Justification::centredBottom, true);
 	g.addTransform(AffineTransform::identity.rotated(-float_Pi / 2.0, region.getCentreX(), region.getCentreY()));
-	//g.drawText(yLabel, region, Justification::centredTop, true);
+    // shift label due to fransformed coordinate system
+    float shift = (region.getWidth()-region.getHeight())/2;
+	g.drawText(yLabel, region.expanded(0, shift), Justification::centredTop, true);
 }
  
     
