@@ -24,7 +24,7 @@ MainContentComponent::~MainContentComponent()
 
 void MainContentComponent::paint (Graphics& g)
 {
-    ArazGraph* graph = new ArazGraph(getLocalBounds(), "Title", "X Label", "Y Label", Colours::black, Colours::white);
+    ArazGraph* graph = new ArazGraph(getLocalBounds(), "Title", "X Label", "Y Label");
     Random* rnd = new Random();
 
     for (int j = 000; j <= 550; j += 50)

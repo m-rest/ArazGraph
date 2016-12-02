@@ -55,7 +55,7 @@ namespace arazGraph
     class ArazGraph
     {
     public:
-        ArazGraph(Rectangle<int> region, String title = "Araz Graph", String xLabel = "X-Axis", String yLabel = "Y-Axis", Colour fgColour = Colours::white, Colour bgColour = Colours::navy);
+        ArazGraph(Rectangle<int> region, String title = "Title", String xLabel = "X-Axis", String yLabel = "Y-Axis", Colour fgColour = Colours::black, Colour bgColour = Colours::white);
         ~ArazGraph();
         void append(ArazGraphDataset* dataset);
         void paint(Graphics& g);
