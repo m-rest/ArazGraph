@@ -8,7 +8,7 @@ Provides 'ArazGraph.h' and 'ArazGraph.cpp' to plot multiple datasets.
 
 ## Requirements
 
-Requires JUCE >4.0.0, might work with >3.0.0 as well.
+Tested with JUCE >4.0.0, might work with >3.0.0 as well.
 
 ## Example
 
