@@ -15,15 +15,15 @@ MainContentComponent::MainContentComponent()
     
     Random rnd;
     
-    for (int j = 000; j <= 550; j += 50)
+    for (int dataset = 0; dataset < 5; dataset += 1)
     {
         ArazGraphDataset* leftEarData = new ArazGraphDataset("Amplitude: "+String(j),
                                                              Colour::fromRGB(rnd.nextFloat() * 0xff,
                                                                              rnd.nextFloat() * 0xff,
                                                                              rnd.nextFloat() * 0xff));
-        for (int i = -550; i < 550; i += 10)
+        for (int x = -550; x < 550; x += 10)
         {
-            leftEarData->append(new ArazGraphPoint(i, j * sin(i / 200.0)));
+            leftEarData->append( x, 50*dataset* sin(x / 200.0) );
         }
         graph.append(leftEarData);
     }
