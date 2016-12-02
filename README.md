@@ -1,6 +1,4 @@
 # ArazGraph
-### Original author: Ara Bedrossian
-### Improved and turned into a JUCE module by Maximilian Rest
 
 This is a simple data plotter [juce](https://github.com/julianstorer/JUCE)::Component with auto-scaling axes, organized as a JUCE module.
 
@@ -44,3 +42,7 @@ void MainContentComponent::resized()
 
 ![Screenshot](doc/Screenshot.png)
 
+## Authors
+
+Original author: Ara Bedrossian
+Improved and turned into a JUCE module by Maximilian Rest
