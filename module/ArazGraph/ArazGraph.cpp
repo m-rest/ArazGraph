@@ -100,10 +100,10 @@ void ArazGraph::paint(Graphics& g)
 {
     g.fillAll(bgColour);
 
-	float maxX = FLT_MIN;
-	float minX = FLT_MAX;
-	float maxY = FLT_MIN;
-	float minY = FLT_MAX;
+	float maxX = -FLT_MAX;
+	float minX =  FLT_MAX;
+	float maxY = -FLT_MAX;
+	float minY =  FLT_MAX;
 	int lineH = 1;
 
 	ArazGraphDataset* dataset = datasets->get();
@@ -113,32 +113,41 @@ void ArazGraph::paint(Graphics& g)
 		point = dataset->points->get();
 		while (point != NULL)
 		{
-			if (point->xValue > maxX) maxX = point->xValue;
-			if (point->yValue > maxY) maxY = point->yValue;
-			if (point->xValue < minX) minX = point->xValue;
-			if (point->yValue < minY) minY = point->yValue;
+			if (point->xValue > maxX)
+                maxX = point->xValue;
+			if (point->yValue > maxY)
+                maxY = point->yValue;
+			if (point->xValue < minX)
+                minX = point->xValue;
+			if (point->yValue < minY)
+                minY = point->yValue;
 			point = point->nextListItem;
 		}
 		dataset = dataset->nextListItem;
 	}
     
+   
     float dx = getRoundedTickRange( 10, maxX-minX );
     float dy = getRoundedTickRange( 10, maxY-minY );
     
-    minX = dx * roundf( minX / dx );
-    maxX = dx * roundf( 1 + maxX / dx );
+ 
+    minX = dx * floor( minX / dx );
+    maxX = dx * ceil( 1 + maxX / dx );
     
-    minY = dy * roundf( minY / dy ) - dy;
-    maxY = dy * roundf( 1 + maxY / dy ) - dy;
+    minY = dy * floor( minY / dy ) ;
+    maxY = dy * ceil( 1 + maxY / dy );
     
+    int xTickCount = (maxX-minX)/dx;
+    int yTickCount = (maxY-minY)/dy;
+
     
-	float scaleX = regionGraph.getWidth() / ((maxX == minX ? 0.0001 : maxX - minX) * 1.10);
-	float scaleY = regionGraph.getHeight() / ((maxY == minY ? 0.0001 : maxY - minY) * 1.10);
+	float scaleX = regionGraph.getWidth() / ((maxX == minX ? 0.0001 : maxX - minX) * 1.0);
+	float scaleY = regionGraph.getHeight() / ((maxY == minY ? 0.0001 : maxY - minY - dy) * 1.0);
     
-    // draw x-axis / grid
+    // draw x-axis / vertical grid
     g.setFont(Font(12.0f));
     g.setColour(fgColour);
-    for (int i = 0; i < 11; i++)
+    for (int i = 0; i < xTickCount; i++)
     {
         int x = (scaleX * i * dx) + regionGraph.getBottomLeft().getX();
         int y = regionGraph.getBottomLeft().getY();
@@ -154,8 +163,8 @@ void ArazGraph::paint(Graphics& g)
         g.drawSingleLineText(String(value), x - 5, y + 20, Justification::left);
     }
     
-    // draw y-axis / grid
-    for (int i = 0; i < 11; i++)
+    // draw y-axis / horizontal grid
+    for (int i = 0; i < yTickCount; i++)
     {
         int x = regionGraph.getTopLeft().getX();
         int y = regionGraph.getHeight() - (scaleY * i * dy) + regionGraph.getTopLeft().getY();
@@ -208,7 +217,7 @@ void ArazGraph::paint(Graphics& g)
 	g.setColour(fgColour);
 	g.drawText(xLabel, region, Justification::centredBottom, true);
 	g.addTransform(AffineTransform::identity.rotated(-float_Pi / 2.0, region.getCentreX(), region.getCentreY()));
-	g.drawText(yLabel, region, Justification::centredTop, true);
+	//g.drawText(yLabel, region, Justification::centredTop, true);
 }
  
     

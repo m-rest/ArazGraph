@@ -27,37 +27,19 @@ void MainContentComponent::paint (Graphics& g)
     ArazGraph* graph = new ArazGraph(getLocalBounds(), "Title", "X Label", "Y Label", Colours::black, Colours::white);
     Random* rnd = new Random();
 
-    for (int j = 0; j < 100; j += 20)
+    for (int j = 000; j <= 550; j += 50)
     {
-        ArazGraphDataset* leftEarData = new ArazGraphDataset("Left",
+        ArazGraphDataset* leftEarData = new ArazGraphDataset("Amplitude: "+String(j),
                                                               Colour::fromRGB(rnd->nextFloat() * 0xff,
                                                                               rnd->nextFloat() * 0xff,
                                                                               rnd->nextFloat() * 0xff));
-        for (int i = 0; i < 5000; i += 10)
+        for (int i = -550; i < 550; i += 10)
         {
             leftEarData->append(new ArazGraphPoint(i, j * sin(i / 200.0)));
         }
         graph->append(leftEarData);
     }
 	
-	ArazGraphDataset* rightEarData = new ArazGraphDataset("Right", Colours::red);
-	rightEarData->append(new ArazGraphPoint(   0, 10));
-	rightEarData->append(new ArazGraphPoint( 100, 10));
-	rightEarData->append(new ArazGraphPoint( 500, 10));
-	rightEarData->append(new ArazGraphPoint(1000, 50));
-	rightEarData->append(new ArazGraphPoint(2000, 10));
-	rightEarData->append(new ArazGraphPoint(5000, 10));
-	graph->append(rightEarData);
-
-    ArazGraphDataset* centreData = new ArazGraphDataset("Centre", Colours::yellow);
-    centreData->append(new ArazGraphPoint(   0, 40));
-    centreData->append(new ArazGraphPoint( 100, 40));
-    centreData->append(new ArazGraphPoint( 500, 40));
-    centreData->append(new ArazGraphPoint(1000, 40));
-    centreData->append(new ArazGraphPoint(2000, 40));
-    centreData->append(new ArazGraphPoint(5000, 40));
-    graph->append(centreData);
-
     graph->paint(g);
 
     delete graph;
