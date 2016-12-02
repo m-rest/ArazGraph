@@ -45,4 +45,5 @@ void MainContentComponent::resized()
 ## Authors
 
 Original author: Ara Bedrossian
+
 Improved and turned into a JUCE module by Maximilian Rest
