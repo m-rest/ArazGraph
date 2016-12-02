@@ -13,29 +13,32 @@ Tested with JUCE >4.0.0, might work with >3.0.0 as well.
 ## Example
 
 ```
-void MainContentComponent::paint(Graphics& g)
+MainContentComponent::MainContentComponent()
 {
-	g.fillAll(Colour(0xff001F36));
+    addAndMakeVisible(graph);
+    
+    Random rnd;
+    
+    for (int j = 000; j <= 550; j += 50)
+    {
+        ArazGraphDataset* leftEarData = new ArazGraphDataset("Amplitude: "+String(j),
+                                                             Colour::fromRGB(rnd.nextFloat() * 0xff,
+                                                                             rnd.nextFloat() * 0xff,
+                                                                             rnd.nextFloat() * 0xff));
+        for (int i = -550; i < 550; i += 10)
+        {
+            leftEarData->append(new ArazGraphPoint(i, j * sin(i / 200.0)));
+        }
+        graph.append(leftEarData);
+    }
+    
+    setSize (800, 600);
+}
 
-	ArazGraph* graph = new ArazGraph(getLocalBounds(), "My Measurements", "Freq(Hz)", "db");
-
-	ArazGraphDataset* leftEarData = new ArazGraphDataset("Left", Colours::green);
-	leftEarData->append(new ArazGraphPoint(0, 10));
-	leftEarData->append(new ArazGraphPoint(500, 20));
-	leftEarData->append(new ArazGraphPoint(1000, 30));
-	leftEarData->append(new ArazGraphPoint(5000, 10));
-	graph->append(leftEarData);
-
-	ArazGraphDataset* rightEarData = new ArazGraphDataset("Right", Colours::red);
-	rightEarData->append(new ArazGraphPoint(0, 15));
-	rightEarData->append(new ArazGraphPoint(500, 25));
-	rightEarData->append(new ArazGraphPoint(1000, 35));
-	rightEarData->append(new ArazGraphPoint(5000, 15));
-	graph->append(rightEarData);
-
-	graph->paint(g);
-
-	delete graph;
+void MainContentComponent::resized()
+{
+    graph.setBounds(getLocalBounds().reduced(10, 10));
+    repaint();
 }
 ```
 
