@@ -41,5 +41,5 @@ void MainContentComponent::paint(Graphics& g)
 
 ## Screenshots
 
-![Screenshot 1](doc/Screenshot_1.png)
+![Screenshot](doc/Screenshot.png)
 
