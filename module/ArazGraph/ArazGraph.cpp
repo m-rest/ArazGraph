@@ -104,7 +104,7 @@ void ArazGraph::paint(Graphics& g)
     region = getLocalBounds();
     regionGraph = region;
     regionGraph.expand(xMargin, yMargin);
-    regionGraph = regionGraph.withTrimmedRight(50);
+    regionGraph = regionGraph.withTrimmedRight(50).withTrimmedLeft(20);
     
 
 	ArazGraphDataset* dataset = datasets->get();
@@ -163,7 +163,7 @@ void ArazGraph::paint(Graphics& g)
             int x = (scaleX * i * dx) + regionGraph.getBottomLeft().getX();
             int y = regionGraph.getBottomLeft().getY();
             int y0 = regionGraph.getTopLeft().getY();
-            int value = minX + (dx * i);
+            float value = minX + (dx * i);
             //Line<float> line(x, y, x, y0);
             //float len[] = { 6,8 };
             //g.drawDashedLine(line, len, 2, .5f);
@@ -171,7 +171,7 @@ void ArazGraph::paint(Graphics& g)
             g.drawLine(x, y, x, y0, 2.0f);
             g.setColour(fgColour);
             g.drawLine(x, y - 5, x, y + 5, 2);
-            g.drawSingleLineText(String(value), x, y + 20, Justification::horizontallyCentred);
+            g.drawSingleLineText(String(value,0), x, y + 20, Justification::horizontallyCentred);
         }
         
         // draw y-axis / horizontal grid
@@ -180,7 +180,7 @@ void ArazGraph::paint(Graphics& g)
             int x = regionGraph.getTopLeft().getX();
             int y = regionGraph.getHeight() - (scaleY * i * dy) + regionGraph.getTopLeft().getY();
             int x0 = regionGraph.getTopRight().getX();
-            int value = minY + (dy * i);
+            float value = minY + (dy * i);
             //Line<float> line(x, y, x0, y);
             //float len[] = { 6, 8 };
             //g.drawDashedLine(line, len, 2, .5f);
@@ -188,7 +188,7 @@ void ArazGraph::paint(Graphics& g)
             g.drawLine(x, y, x0, y, 2.0f);
             g.setColour(fgColour);
             g.drawLine(x - 5, y, x + 5, y, 2);
-            g.drawSingleLineText(String(value), x - 8, y + 4, Justification::right);
+            g.drawSingleLineText(String(value,0), x - 8, y + 4, Justification::right);
         }
 
         // draw points
