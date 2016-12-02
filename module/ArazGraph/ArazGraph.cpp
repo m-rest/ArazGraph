@@ -46,9 +46,9 @@ ArazGraphDataset::~ArazGraphDataset()
  * Appends a new point to this dataset
  * @param point - instantiated pointer to the point object which will be added to this dataset
  */
-void ArazGraphDataset::append(ArazGraphPoint* point)
+void ArazGraphDataset::append(float xValue, float yValue)
 {
-    points->append(point);
+    points->append(new ArazGraphPoint(xValue, yValue));
 }
 
 /**

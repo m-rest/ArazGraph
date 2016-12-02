@@ -27,7 +27,7 @@ MainContentComponent::MainContentComponent()
                                                                              rnd.nextFloat() * 0xff));
         for (int i = -550; i < 550; i += 10)
         {
-            leftEarData->append(new ArazGraphPoint(i, j * sin(i / 200.0)));
+            leftEarData->append( i, j * sin(i / 200.0) );
         }
         graph.append(leftEarData);
     }

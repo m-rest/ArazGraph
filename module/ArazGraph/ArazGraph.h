@@ -45,7 +45,7 @@ namespace arazGraph
     public:
         ArazGraphDataset(String label = "Dataset", Colour colour = Colours::black);
         ~ArazGraphDataset();
-        void append(ArazGraphPoint* point);
+        void append(float xValue, float yValue);
 
     public:
         String label;
