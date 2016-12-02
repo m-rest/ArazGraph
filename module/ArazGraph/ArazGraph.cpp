@@ -161,7 +161,7 @@ void ArazGraph::paint(Graphics& g)
         g.drawLine(x, y, x, y0, 2.0f);
         g.setColour(fgColour);
         g.drawLine(x, y - 5, x, y + 5, 2);
-        g.drawSingleLineText(String(value), x - 5, y + 20, Justification::left);
+        g.drawSingleLineText(String(value), x, y + 20, Justification::horizontallyCentred);
     }
     
     // draw y-axis / horizontal grid
@@ -178,7 +178,7 @@ void ArazGraph::paint(Graphics& g)
         g.drawLine(x, y, x0, y, 2.0f);
         g.setColour(fgColour);
         g.drawLine(x - 5, y, x + 5, y, 2);
-        g.drawSingleLineText(String(value), x - 10, y + 5, Justification::right);
+        g.drawSingleLineText(String(value), x - 8, y + 4, Justification::right);
     }
 
 	// draw points
