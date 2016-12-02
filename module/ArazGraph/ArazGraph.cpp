@@ -104,116 +104,124 @@ void ArazGraph::paint(Graphics& g)
     region = getLocalBounds();
     regionGraph = region;
     regionGraph.expand(xMargin, yMargin);
+    regionGraph = regionGraph.withTrimmedRight(50);
     
-	float maxX = -FLT_MAX;
-	float minX =  FLT_MAX;
-	float maxY = -FLT_MAX;
-	float minY =  FLT_MAX;
-	int lineH = 1;
 
 	ArazGraphDataset* dataset = datasets->get();
 	ArazGraphPoint* point = NULL;
-	while (dataset != NULL)
-	{
-		point = dataset->points->get();
-		while (point != NULL)
-		{
-			if (point->xValue > maxX)
-                maxX = point->xValue;
-			if (point->yValue > maxY)
-                maxY = point->yValue;
-			if (point->xValue < minX)
-                minX = point->xValue;
-			if (point->yValue < minY)
-                minY = point->yValue;
-			point = point->nextListItem;
-		}
-		dataset = dataset->nextListItem;
-	}
     
-    // calculate tick range for a DESIRED amount if ticks
-    float dx = getRoundedTickRange( 10, maxX-minX );
-    float dy = getRoundedTickRange( 10, maxY-minY );
+    if (dataset!=NULL)
+    {
     
-    // fix min/max valuesaccording to new tick range
-    minX = dx * floor( minX / dx );
-    maxX = dx * ceil( 1 + maxX / dx );
-    
-    minY = dy * floor( minY / dy ) ;
-    maxY = dy * ceil( 1 + maxY / dy );
-    
-    // calculate REAL tick count, depending on new min/max values and nice tick range
-    int xTickCount = (maxX-minX)/dx;
-    int yTickCount = (maxY-minY)/dy;
+        float maxX = -FLT_MAX;
+        float minX =  FLT_MAX;
+        float maxY = -FLT_MAX;
+        float minY =  FLT_MAX;
+        
+        while (dataset != NULL)
+        {
+            point = dataset->points->get();
+            while (point != NULL)
+            {
+                if (point->xValue > maxX)
+                    maxX = point->xValue;
+                if (point->yValue > maxY)
+                    maxY = point->yValue;
+                if (point->xValue < minX)
+                    minX = point->xValue;
+                if (point->yValue < minY)
+                    minY = point->yValue;
+                point = point->nextListItem;
+            }
+            dataset = dataset->nextListItem;
+        }
+        
+        // calculate tick range for a DESIRED amount if ticks
+        float dx = getRoundedTickRange( 10, maxX-minX );
+        float dy = getRoundedTickRange( 10, maxY-minY );
+        
+        // fix min/max valuesaccording to new tick range
+        minX = dx * floor( minX / dx );
+        maxX = dx * ceil( 1 + maxX / dx );
+        
+        minY = dy * floor( minY / dy ) ;
+        maxY = dy * ceil( 1 + maxY / dy );
+        
+        // calculate REAL tick count, depending on new min/max values and nice tick range
+        int xTickCount = (maxX-minX)/dx;
+        int yTickCount = (maxY-minY)/dy;
 
-    
-	float scaleX = regionGraph.getWidth() / ((maxX == minX ? 0.0001 : maxX - minX) * 1.0);
-	float scaleY = regionGraph.getHeight() / ((maxY == minY ? 0.0001 : maxY - minY - dy) * 1.0);
-    
-    // draw x-axis / vertical grid
-    g.setFont(Font(12.0f));
-    g.setColour(fgColour);
-    for (int i = 0; i < xTickCount; i++)
-    {
-        int x = (scaleX * i * dx) + regionGraph.getBottomLeft().getX();
-        int y = regionGraph.getBottomLeft().getY();
-        int y0 = regionGraph.getTopLeft().getY();
-        int value = minX + (dx * i);
-        //Line<float> line(x, y, x, y0);
-        //float len[] = { 6,8 };
-        //g.drawDashedLine(line, len, 2, .5f);
-        g.setColour(Colours::whitesmoke);
-        g.drawLine(x, y, x, y0, 2.0f);
+        
+        float scaleX = regionGraph.getWidth() / ((maxX == minX ? 0.0001 : maxX - minX - dx) * 1.0);
+        float scaleY = regionGraph.getHeight() / ((maxY == minY ? 0.0001 : maxY - minY - dy) * 1.0);
+        
+        // draw x-axis / vertical grid
+        g.setFont(Font(12.0f));
         g.setColour(fgColour);
-        g.drawLine(x, y - 5, x, y + 5, 2);
-        g.drawSingleLineText(String(value), x, y + 20, Justification::horizontallyCentred);
-    }
-    
-    // draw y-axis / horizontal grid
-    for (int i = 0; i < yTickCount; i++)
-    {
-        int x = regionGraph.getTopLeft().getX();
-        int y = regionGraph.getHeight() - (scaleY * i * dy) + regionGraph.getTopLeft().getY();
-        int x0 = regionGraph.getTopRight().getX()-scaleX*dx;
-        int value = minY + (dy * i);
-        //Line<float> line(x, y, x0, y);
-        //float len[] = { 6, 8 };
-        //g.drawDashedLine(line, len, 2, .5f);
-        g.setColour(Colours::whitesmoke);
-        g.drawLine(x, y, x0, y, 2.0f);
-        g.setColour(fgColour);
-        g.drawLine(x - 5, y, x + 5, y, 2);
-        g.drawSingleLineText(String(value), x - 8, y + 4, Justification::right);
-    }
+        for (int i = 0; i < xTickCount; i++)
+        {
+            int x = (scaleX * i * dx) + regionGraph.getBottomLeft().getX();
+            int y = regionGraph.getBottomLeft().getY();
+            int y0 = regionGraph.getTopLeft().getY();
+            int value = minX + (dx * i);
+            //Line<float> line(x, y, x, y0);
+            //float len[] = { 6,8 };
+            //g.drawDashedLine(line, len, 2, .5f);
+            g.setColour(Colours::whitesmoke);
+            g.drawLine(x, y, x, y0, 2.0f);
+            g.setColour(fgColour);
+            g.drawLine(x, y - 5, x, y + 5, 2);
+            g.drawSingleLineText(String(value), x, y + 20, Justification::horizontallyCentred);
+        }
+        
+        // draw y-axis / horizontal grid
+        for (int i = 0; i < yTickCount; i++)
+        {
+            int x = regionGraph.getTopLeft().getX();
+            int y = regionGraph.getHeight() - (scaleY * i * dy) + regionGraph.getTopLeft().getY();
+            int x0 = regionGraph.getTopRight().getX();
+            int value = minY + (dy * i);
+            //Line<float> line(x, y, x0, y);
+            //float len[] = { 6, 8 };
+            //g.drawDashedLine(line, len, 2, .5f);
+            g.setColour(Colours::whitesmoke);
+            g.drawLine(x, y, x0, y, 2.0f);
+            g.setColour(fgColour);
+            g.drawLine(x - 5, y, x + 5, y, 2);
+            g.drawSingleLineText(String(value), x - 8, y + 4, Justification::right);
+        }
 
-	// draw points
-	dataset = datasets->get();
-    while (dataset != NULL)
-    {
-		g.setColour(dataset->colour);
-		point = dataset->points->get();
-		int x = (scaleX * (point->xValue - minX)) + regionGraph.getX();
-		int y = regionGraph.getHeight() - (scaleY * (point->yValue - minY)) + regionGraph.getY();
-		int preX = x;
-		int preY = y;
-		while (point != NULL)
-		{
-			x = (scaleX * (point->xValue - minX)) + regionGraph.getX();
-			y = regionGraph.getHeight() - (scaleY * (point->yValue - minY)) + regionGraph.getY();
-			g.drawLine(preX, preY, x, y, 2);
-			//g.fillRect(x - 1, y - 1, 3, 3);
-			preX = x;
-			preY = y;
-			point = point->nextListItem;
-		}
-		g.drawSingleLineText(dataset->label, region.getTopRight().getX() - 5, regionGraph.getTopRight().getY() + (lineH * 18), Justification::right);
-		lineH++;
-		dataset = dataset->nextListItem;
+        // draw points
+        dataset = datasets->get();
+        int lineH = 1;
+        while (dataset != NULL)
+        {
+            g.setColour(dataset->colour);
+            point = dataset->points->get();
+            int x = (scaleX * (point->xValue - minX)) + regionGraph.getX();
+            int y = regionGraph.getHeight() - (scaleY * (point->yValue - minY)) + regionGraph.getY();
+            int preX = x;
+            int preY = y;
+            while (point != NULL)
+            {
+                x = (scaleX * (point->xValue - minX)) + regionGraph.getX();
+                y = regionGraph.getHeight() - (scaleY * (point->yValue - minY)) + regionGraph.getY();
+                g.drawLine(preX, preY, x, y, 2);
+                //g.fillRect(x - 1, y - 1, 3, 3);
+                preX = x;
+                preY = y;
+                point = point->nextListItem;
+            }
+            g.drawSingleLineText(dataset->label, region.getTopRight().getX() - 5, regionGraph.getTopRight().getY() + (lineH * 18), Justification::right);
+            lineH++;
+            dataset = dataset->nextListItem;
+        }
+    
     }
 
     // draw graph general elements
 	g.setColour(fgColour);
-	g.drawRect(regionGraph.withTrimmedRight(scaleX*dx), 2);
+	g.drawRect(regionGraph, 2);
 	
 	g.setFont(Font(16.0f));
 	g.setColour(fgColour);
