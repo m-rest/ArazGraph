@@ -1,6 +1,6 @@
 # ArazGraph
-### Author: Ara Bedrossian
-### Turned into a JUCE module by Maximilian Rest
+### Original author: Ara Bedrossian
+### Improved and turned into a JUCE module by Maximilian Rest
 
 This is a simple data plotter module for [JUCE](https://github.com/julianstorer/JUCE).
 
@@ -43,4 +43,3 @@ void MainContentComponent::paint(Graphics& g)
 
 ![Screenshot 1](doc/Screenshot_1.png)
 
-![Screenshot 2](doc/Screenshot_2.png)
